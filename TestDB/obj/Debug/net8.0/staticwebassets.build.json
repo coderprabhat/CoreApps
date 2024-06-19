@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "iWOSyBFvWFYGO94asjpd/0qF7ZC7iavKIsM9uyMztWc=",
+  "Source": "TestDB",
+  "BasePath": "_content/TestDB",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

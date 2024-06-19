@@ -23,36 +23,45 @@ namespace TestDB.Controllers
 
         // GET: api/Cases
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Case>>> GetCase()
+        public async Task<ActionResult<IEnumerable<Case>>> GetCases()
         {
-            return await _context.Cases.ToListAsync();
+            return await _context.Cases.Include(c => c.Address).Include(c => c.Contacts).ToListAsync();
         }
 
         // GET: api/Cases/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Case>> GetCase(Guid id)
         {
-            var @case = await _context.Cases.FindAsync(id);
+            var caseItem = await _context.Cases.Include(c => c.Address).Include(c => c.Contacts).FirstOrDefaultAsync(c => c.Id == id);
 
-            if (@case == null)
+            if (caseItem == null)
             {
                 return NotFound();
             }
 
-            return @case;
+            return caseItem;
+        }
+
+        // POST: api/Cases
+        [HttpPost]
+        public async Task<ActionResult<Case>> PostCase(Case caseItem)
+        {
+            _context.Cases.Add(caseItem);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCase", new { id = caseItem.Id }, caseItem);
         }
 
         // PUT: api/Cases/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCase(Guid id, Case @case)
+        public async Task<IActionResult> PutCase(Guid id, Case caseItem)
         {
-            if (id != @case.Id)
+            if (id != caseItem.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@case).State = EntityState.Modified;
+            _context.Entry(caseItem).State = EntityState.Modified;
 
             try
             {
@@ -73,29 +82,17 @@ namespace TestDB.Controllers
             return NoContent();
         }
 
-        // POST: api/Cases
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Case>> PostCase(Case @case)
-        {
-            @case.Id = new Guid();
-            _context.Cases.Add(@case);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCase", new { id = @case.Id }, @case);
-        }
-
         // DELETE: api/Cases/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCase(Guid id)
         {
-            var @case = await _context.Cases.FindAsync(id);
-            if (@case == null)
+            var caseItem = await _context.Cases.FindAsync(id);
+            if (caseItem == null)
             {
                 return NotFound();
             }
 
-            _context.Cases.Remove(@case);
+            _context.Cases.Remove(caseItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -106,4 +103,5 @@ namespace TestDB.Controllers
             return _context.Cases.Any(e => e.Id == id);
         }
     }
+
 }

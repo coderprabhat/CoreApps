@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+using Newtonsoft.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +14,13 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<TestDB.Db.ProjectDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbCon")));
 
+// Add services to the container.
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Include;  // Include null values
+    });
 
 // Get the secret key and other configurations from appsettings.json
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);

@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<CaseService>();
+builder.Services.AddHttpClient<CaseContactService>();
 
 var app = builder.Build();
 

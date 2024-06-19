@@ -28,3 +28,4 @@ D:\Testing\TestApp\Website\obj\Debug\net8.0\refint\Website.dll
 D:\Testing\TestApp\Website\obj\Debug\net8.0\Website.pdb
 D:\Testing\TestApp\Website\obj\Debug\net8.0\Website.genruntimeconfig.cache
 D:\Testing\TestApp\Website\obj\Debug\net8.0\ref\Website.dll
+D:\Testing\TestApp\Website\obj\Debug\net8.0\Website.sourcelink.json

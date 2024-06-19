@@ -10,5 +10,11 @@
         public DateTime? CreatedOn { get; set; } = DateTime.Now;
         public DateTime UpdatedOn { get; set; } = DateTime.Now;
 
+        // Navigation property for one-to-one relationship
+        public CaseAddress? Address { get; set; }
+
+        // Navigation property for one-to-many relationship
+        public ICollection<CaseContact>? Contacts { get; set; }
+
     }
 }

@@ -1,40 +1,103 @@
 ﻿@model IEnumerable<Website.Models.Case>
 
+
 @{
     ViewData["Title"] = "Cases";
 }
 
 <h2>Cases</h2>
 
-<p>
-    <a asp-action="Create">Create New Case</a>
-</p>
+<div id="cases-container">
+    @Html.Partial("_CasesList", Model)
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Legal Business Name</th>
-            <th>Business Tax ID</th>
-            <th>Plans</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.LegalBusinessName</td>
-                <td>@item.BusinessTaxId</td>
-                <td>@item.Plans</td>
-                <td>@item.Status</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-action="Create" asp-controller="CaseContacts" asp-route-caseId="@item.Id">Add Contact</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div id="contacts-container">
+    <!-- Contacts will be loaded here -->
+</div>
+
+<!-- Modal for creating and editing contacts -->
+<div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contact</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="contact-modal-body">
+                <!-- Contact form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Load contacts for the selected case
+            $('#cases-container').on('click', '.view-contacts', function () {
+                var caseId = $(this).data('case-id');
+                $.ajax({
+                    url: '@Url.Action("GetContacts", "Cases")',
+                    data: { caseId: caseId },
+                    success: function (result) {
+                        $('#contacts-container').html(result);
+                    }
+                });
+            });
+
+            // Open the modal to create a new contact
+            $('#cases-container').on('click', '.add-contact', function () {
+                var caseId = $(this).data('case-id');
+                $.ajax({
+                    url: '@Url.Action("Create", "CaseContacts")',
+                    data: { caseId: caseId },
+                    success: function (result) {
+                        $('#contact-modal-body').html(result);
+                        $('#contact-modal').modal('show');
+                    }
+                });
+            });
+
+            // Open the modal to edit a contact
+            $('#contacts-container').on('click', '.edit-contact', function () {
+                var contactId = $(this).data('contact-id');
+                $.ajax({
+                    url: '@Url.Action("Edit", "CaseContacts")',
+                    data: { id: contactId },
+                    success: function (result) {
+                        $('#contact-modal-body').html(result);
+                        $('#contact-modal').modal('show');
+                    }
+                });
+            });
+
+            // Handle the contact form submission via AJAX
+            $('#contact-modal-body').on('submit', '#contact-form', function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#contact-modal').modal('hide');
+                            var caseId = $('input[name="CaseId"]').val();
+                            $.ajax({
+                                url: '@Url.Action("GetContacts", "Cases")',
+                                data: { caseId: caseId },
+                                success: function (result) {
+                                    $('#contacts-container').html(result);
+                                }
+                            });
+                        } else {
+                            $('#contact-modal-body').html(response);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

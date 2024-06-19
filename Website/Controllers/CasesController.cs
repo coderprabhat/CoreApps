@@ -7,15 +7,31 @@ namespace Website.Controllers
     public class CasesController : Controller
     {
         private readonly CaseService _caseService;
+        private readonly CaseContactService _caseContactService;
+
         private readonly List<string> _plansList = new List<string>
         {
             "Cobra", "Employee Benefits", "HSA", "HRA", "LPFSA", "DCA", "Medical"
         };
 
-        public CasesController(CaseService caseService)
+        public CasesController(CaseService caseService, CaseContactService caseContactService)
         {
             _caseService = caseService;
+            _caseContactService = caseContactService;
         }
+
+        public async Task<IActionResult> GetCases()
+        {
+            var cases = await _caseService.GetAllCasesAsync();
+            return PartialView("_CasesList", cases);
+        }
+
+        public async Task<IActionResult> GetContacts(Guid caseId)
+        {
+            var contacts = await _caseContactService.GetCaseContactsByCaseIdAsync(caseId);
+            return PartialView("_CaseContactsList", contacts);
+        }
+
 
         public async Task<IActionResult> Index()
         {

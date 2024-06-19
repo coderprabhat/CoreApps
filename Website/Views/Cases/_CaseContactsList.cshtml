@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Website.Models.CaseContact>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model)
+        {
+            <tr>
+                <td>@contact.FirstName</td>
+                <td>@contact.LastName</td>
+                <td>@contact.Email</td>
+                <td>@contact.Roles</td>
+                <td>
+                    <button class="btn btn-warning edit-contact" data-contact-id="@contact.Id">Edit</button>
+                    <a asp-action="Delete" asp-route-id="@contact.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

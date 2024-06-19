@@ -45,11 +45,12 @@ namespace Website.Controllers
             var caseRoles = await _caseContactService.GetRolesForCaseAsync(caseId);
             var availableRoles = _allRolesList.Except(caseRoles).ToList();
 
-            ViewBag.CasesList = new SelectList(await _caseService.GetAllCasesAsync(), "Id", "LegalBusinessName", caseId);
+            ViewBag.RolesList = new MultiSelectList(availableRoles);
             ViewBag.ResponsibilitiesList = _responsibilitiesList;
             ViewBag.ContactCategoryList = _contactCategoryList;
-            ViewBag.RolesList = availableRoles;
-            return View(new CaseContact { CaseId = caseId });
+            ViewBag.Action = "Create";
+
+            return PartialView("_CreateEditContactPartial", new CaseContact { CaseId = caseId });
         }
 
         [HttpPost]
@@ -60,17 +61,18 @@ namespace Website.Controllers
                 newCaseContact.Roles = string.Join(",", newCaseContact.SelectedRoles); // Converting selected roles to comma-separated string
                 newCaseContact.Responsibilities = string.Join(",", newCaseContact.SelectedResponsibilities); // Converting selected responsibilities to comma-separated string
                 await _caseContactService.CreateCaseContactAsync(newCaseContact);
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = true });
             }
 
             var caseRoles = await _caseContactService.GetRolesForCaseAsync(newCaseContact.CaseId);
             var availableRoles = _allRolesList.Except(caseRoles).ToList();
 
-            ViewBag.CasesList = new SelectList(await _caseService.GetAllCasesAsync(), "Id", "LegalBusinessName", newCaseContact.CaseId);
+            ViewBag.RolesList = new MultiSelectList(availableRoles);
             ViewBag.ResponsibilitiesList = _responsibilitiesList;
             ViewBag.ContactCategoryList = _contactCategoryList;
-            ViewBag.RolesList = availableRoles;
-            return View(newCaseContact);
+            ViewBag.Action = "Create";
+
+            return PartialView("_CreateEditContactPartial", newCaseContact);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -94,9 +96,9 @@ namespace Website.Controllers
             ViewBag.RolesList = new MultiSelectList(availableRoles, selectedRoles);
             ViewBag.ResponsibilitiesList = _responsibilitiesList;
             ViewBag.ContactCategoryList = _contactCategoryList;
-            ViewBag.CasesList = new SelectList(await _caseService.GetAllCasesAsync(), "Id", "LegalBusinessName", caseContactDetail.CaseId);
+            ViewBag.Action = "Edit";
 
-            return View(caseContactDetail);
+            return PartialView("_CreateEditContactPartial", caseContactDetail);
         }
 
         [HttpPost]
@@ -108,7 +110,7 @@ namespace Website.Controllers
                 updatedCaseContact.Responsibilities = string.Join(",", updatedCaseContact.SelectedResponsibilities); // Converting selected responsibilities to comma-separated string
 
                 await _caseContactService.UpdateCaseContactAsync(id, updatedCaseContact);
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = true });
             }
 
             var caseRoles = await _caseContactService.GetRolesForCaseAsync(updatedCaseContact.CaseId);
@@ -121,9 +123,9 @@ namespace Website.Controllers
             ViewBag.RolesList = new MultiSelectList(availableRoles, selectedRoles);
             ViewBag.ResponsibilitiesList = _responsibilitiesList;
             ViewBag.ContactCategoryList = _contactCategoryList;
-            ViewBag.CasesList = new SelectList(await _caseService.GetAllCasesAsync(), "Id", "LegalBusinessName", updatedCaseContact.CaseId);
+            ViewBag.Action = "Edit";
 
-            return View(updatedCaseContact);
+            return PartialView("_CreateEditContactPartial", updatedCaseContact);
         }
 
         public async Task<IActionResult> Delete(Guid id)

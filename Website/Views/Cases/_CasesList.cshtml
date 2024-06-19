@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Website.Models.Case>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Legal Business Name</th>
+            <th>Business Tax ID</th>
+            <th>Plans</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.LegalBusinessName</td>
+                <td>@item.BusinessTaxId</td>
+                <td>@item.Plans</td>
+                <td>@item.Status</td>
+                <td>
+                    <button class="btn btn-primary view-contacts" data-case-id="@item.Id">View Contacts</button>
+                    <button class="btn btn-success add-contact" data-case-id="@item.Id">Add Contact</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

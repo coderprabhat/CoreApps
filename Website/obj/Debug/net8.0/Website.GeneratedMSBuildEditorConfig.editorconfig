@@ -1,11 +1,19 @@
 is_global = true
 build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Website
 build_property.RootNamespace = Website
@@ -34,6 +42,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZUNvbnRhY3RzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Testing/TestApp/Website/Views/CaseContacts/_CreateEditContactPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZUNvbnRhY3RzXF9DcmVhdGVFZGl0Q29udGFjdFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Testing/TestApp/Website/Views/Cases/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -48,6 +60,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Testing/TestApp/Website/Views/Cases/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Testing/TestApp/Website/Views/Cases/_CaseContactsList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZXNcX0Nhc2VDb250YWN0c0xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Testing/TestApp/Website/Views/Cases/_CasesList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZXNcX0Nhc2VzTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Testing/TestApp/Website/Views/Home/Index.cshtml]

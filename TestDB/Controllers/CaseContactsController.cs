@@ -113,6 +113,13 @@ namespace TestDB.Controllers
 
             return Ok(uniqueRoles);
         }
+
+        [HttpGet("bycase/{caseId}")]
+        public async Task<ActionResult<IEnumerable<CaseContact>>> GetCaseContactsByCaseId(Guid caseId)
+        {
+            var contacts = await _context.CaseContacts.Where(cc => cc.CaseId == caseId).ToListAsync();
+            return Ok(contacts);
+        }
     }
 
 }

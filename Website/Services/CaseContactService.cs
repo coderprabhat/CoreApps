@@ -60,5 +60,14 @@ namespace Website.Services
             var jsonResponse = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<IEnumerable<string>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
+
+        public async Task<IEnumerable<CaseContact>> GetCaseContactsByCaseIdAsync(Guid caseId)
+        {
+            var response = await _httpClient.GetAsync($"{_baseUrl}/bycase/{caseId}");
+            response.EnsureSuccessStatusCode();
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<IEnumerable<CaseContact>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
     }
 }
